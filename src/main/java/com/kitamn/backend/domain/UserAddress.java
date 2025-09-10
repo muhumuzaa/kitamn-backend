@@ -2,10 +2,16 @@ package com.kitamn.backend.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.OffsetDateTime;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name="address", indexes={@Index(name="IX_address_user", columnList="user_id")})
 @EntityListeners(AuditingEntityListener.class)
@@ -54,8 +60,8 @@ public class UserAddress {
     @Column(name="updated_at", nullable=false)
     private OffsetDateTime updatedAt;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="user_id", nullable=false)
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="user_id", nullable=false, unique=true)
     private UserAccount user;
 
 }

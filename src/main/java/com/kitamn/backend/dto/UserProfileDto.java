@@ -6,7 +6,7 @@ import java.time.OffsetDateTime;
 
 public class UserProfileDto {
 
-    public record updateProfileRequest(
+    public record UpdateProfileRequest(
             @Size(max=100) String firstName,
             @Size(max=100) String lastName,
             @Size (max=30) @Pattern(regexp="^\\+[1-9]\\d{1,14}$") String phone,
@@ -16,7 +16,7 @@ public class UserProfileDto {
             //Never send @NotBlank on updates coz the user may not want to change that field.
     ){}
 
-    public record profileResponse(
+    public record ProfileResponse(
             Long id,
             String firstName,
             String lastName,

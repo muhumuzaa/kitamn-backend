@@ -2,12 +2,17 @@ package com.kitamn.backend.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.OffsetDateTime;
-
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name="user_profile", uniqueConstraints = @UniqueConstraint(name = "UQ_user_profile_user", columnNames = "user_id"))
 @EntityListeners(AuditingEntityListener.class)
@@ -36,6 +41,10 @@ public class UserProfile {
     @Size(max=500)
     @Column(length=500)
     private String bio;
+
+//    @NotBlank @Size(max=100)
+//    @Column(name="line1", nullable=false, length =100)
+//    private String line1;
 
     @CreatedDate
     @Column(name="created_at", nullable=false)

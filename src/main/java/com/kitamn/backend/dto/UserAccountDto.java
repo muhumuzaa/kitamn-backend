@@ -6,24 +6,27 @@ import java.time.OffsetDateTime;
 
 public class UserAccountDto {
 
-    public record createUserRequest(
+    public record CreateUserRequest(
             @NotBlank @Email @Size(max=100) String email,
             @NotBlank @Size(min=8, max=100) String password,
             @NotBlank @Size(max=100) String firstName,
             @NotBlank @Size(max=100) String lastName
     ){}
 
-    public record updateUserRequest(
+    public record UpdateUserRequest(
             @Email @Size(max=100) String email,
             @Size(min=8, max=100) String password
     ){}
 
-    public record userResponse(
+    public record UserResponse(
             Long id,
             String email,
+            String roles,
+            Boolean enabled,
             String firstName,
             String lastName,
-            Boolean enabled,
+
+
             OffsetDateTime createdAt,
             OffsetDateTime updatedAt
     ){}

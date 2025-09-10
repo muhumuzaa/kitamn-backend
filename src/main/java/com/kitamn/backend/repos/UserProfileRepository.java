@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface UserProfileRepository extends JpaRepository<UserProfile, Long>{
 
-    Optional<UserProfile> findByUserId(Long userId);
+    Optional<UserProfile> findByUser_Id(Long userId);
 
     Page<UserProfile> searchByFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContaining(
             String firstNamePart,

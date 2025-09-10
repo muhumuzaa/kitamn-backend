@@ -6,30 +6,28 @@ import java.time.OffsetDateTime;
 
 public class UserAddressDto {
 
-    public record createAddressRequest(
+    public record CreateOrAddressRequest(
             @NotBlank @Size(max=100) String line1,
             @Size(max=100) String line2,
             @NotBlank @Size(max=100) String city,
             @Size(max=100) String stateRegion,
             @Size(max=100) String postalCode,
             @NotBlank @Size(max=100) String country,
-            @Size(max=100) String label,
-            Boolean isPrimary
+            @Size(max=100) String label
 
     ){}
 
-    public record updateAddressRequest(
+    public record UpdateAddressRequest(
             @Size(max=100) String line1,
             @Size(max=100) String line2,
             @Size(max=100) String city,
             @Size(max=100) String stateRegion,
             @Size(max=100) String postalCode,
             @Size(max=100) String country,
-            @Size(max=100) String label,
-            Boolean isPrimary
+            @Size(max=100) String label
     ){}
 
-    public record addressResponse(
+    public record AddressResponse(
             Long id,
             String line1,
             String line2,
@@ -38,7 +36,6 @@ public class UserAddressDto {
             String postalCode,
             String country,
             String label,
-            boolean isPrimary,
             OffsetDateTime createdAt,
             OffsetDateTime updatedAt
     ){}

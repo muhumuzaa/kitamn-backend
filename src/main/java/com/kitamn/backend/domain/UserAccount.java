@@ -2,6 +2,9 @@ package com.kitamn.backend.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -10,6 +13,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.OffsetDateTime;
 import java.util.Set;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name="user_account")
 @EntityListeners(AuditingEntityListener.class)
@@ -45,7 +51,7 @@ public class UserAccount{
     @OneToOne(mappedBy="user", cascade=CascadeType.ALL,  orphanRemoval=true, fetch=FetchType.LAZY)
     private UserProfile profile;
 
-    @OneToMany(mappedBy="user", cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval=true)
-    private Set<UserAddress> addresses;
+    @OneToOne(mappedBy="user", cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval=true)
+    private UserAddress address;
 
 }

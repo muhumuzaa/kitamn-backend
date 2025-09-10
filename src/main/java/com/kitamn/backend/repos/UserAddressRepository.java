@@ -10,7 +10,6 @@ import java.util.Optional;
 
 public interface UserAddressRepository extends JpaRepository<UserAddress, Long> {
 
-    Page<UserAddress> findByUser_Id(Long userId, Pageable pageable);
+    Optional<UserAddress> findByUser_Id(Long userId);
 
-    Optional<UserAddress> findByUser_IdAndIsPrimaryTrue(Long userId);
 }
