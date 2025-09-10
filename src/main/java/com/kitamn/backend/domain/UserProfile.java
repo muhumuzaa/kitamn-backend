@@ -2,6 +2,7 @@ package com.kitamn.backend.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import java.time.OffsetDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="user_profile", uniqueConstraints = @UniqueConstraint(name = "UQ_user_profile_user", columnNames = "user_id"))
 @EntityListeners(AuditingEntityListener.class)

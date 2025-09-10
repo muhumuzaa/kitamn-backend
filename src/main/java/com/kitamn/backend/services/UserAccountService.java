@@ -46,6 +46,7 @@ public class UserAccountService {
         p.setLastName(req.lastName());
         p.setUser(ua);
 
+        profiles.save(p);
         return toResponse(ua, p);
     }
 
@@ -73,6 +74,7 @@ public class UserAccountService {
                 throw new IllegalArgumentException("Email is already in use. Choose another email.");
             }
             ua.setEmail(normEmail);
+
         }
         if(req.password() != null && !req.password().isBlank()){
             ua.setPassword(passwordEncoder.encode(req.password()));
@@ -85,7 +87,11 @@ public class UserAccountService {
 
 
     public void changePassword(Long id, String newPassword){
+        if (newPassword == null || newPassword.isBlank()) {
+            throw new IllegalArgumentException("Password cannot be blank.");
+        }
         var ua = users.findById(id).orElseThrow(() -> new IllegalArgumentException("User doesn't exist!: "+id));
+
         if(passwordEncoder.matches(newPassword, ua.getPassword())){
             throw new IllegalArgumentException("You alraedy used this password before. You must use a new password!");
         }
