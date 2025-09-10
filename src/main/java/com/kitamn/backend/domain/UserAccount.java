@@ -51,7 +51,6 @@ public class UserAccount{
     @OneToOne(mappedBy="user", cascade=CascadeType.ALL,  orphanRemoval=true, fetch=FetchType.LAZY)
     private UserProfile profile;
 
-    @OneToOne(mappedBy="user", cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval=true)
-    private UserAddress address;
+
 
 }

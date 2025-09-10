@@ -42,9 +42,30 @@ public class UserProfile {
     @Column(length=500)
     private String bio;
 
-//    @NotBlank @Size(max=100)
-//    @Column(name="line1", nullable=false, length =100)
-//    private String line1;
+    // 👇 Address fields moved here
+    @Size(max=100)
+    @Column(name="line_1", length=100)
+    private String line1;
+
+    @Size(max=100)
+    @Column(name="line_2", length=100)
+    private String line2;
+
+    @Size(max=100)
+    @Column(name="city", length=100)
+    private String city;
+
+    @Size(max=100)
+    @Column(name="state_region", length=100)
+    private String stateRegion;
+
+    @Size(max=50)
+    @Column(name="postal_code", length=50)
+    private String postalCode;
+
+    @Size(max=100)
+    @Column(name="country", length=100)
+    private String country;
 
     @CreatedDate
     @Column(name="created_at", nullable=false)
