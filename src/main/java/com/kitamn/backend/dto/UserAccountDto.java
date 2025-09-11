@@ -18,6 +18,10 @@ public class UserAccountDto {
             @Size(min=8, max=100) String password
     ){}
 
+    public record UpdatePasswordRequest(
+            @NotBlank @Size(min=8, max=100) String newPassword
+    ) {}
+
     public record UserResponse(
             Long id,
             String email,

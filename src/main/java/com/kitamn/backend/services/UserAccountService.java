@@ -96,6 +96,7 @@ public class UserAccountService {
             throw new IllegalArgumentException("You alraedy used this password before. You must use a new password!");
         }
         ua.setPassword(passwordEncoder.encode(newPassword));
+        users.save(ua);
     }
 
 
