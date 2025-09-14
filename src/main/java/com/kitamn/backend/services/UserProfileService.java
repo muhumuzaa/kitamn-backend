@@ -31,6 +31,7 @@ public class UserProfileService {
 
         p.setFirstName(req.firstName() !=null? req.firstName(): p.getFirstName());
         p.setLastName(req.lastName() != null? req.lastName(): p.getLastName());
+
         p.setPhone(req.phone() !=null ? req.phone(): p.getPhone());
         p.setAvatarUrl(req.avatarUrl() !=null ? req.avatarUrl(): p.getAvatarUrl() );
         p.setBio(req.bio() != null ? req.bio() : p.getBio());
