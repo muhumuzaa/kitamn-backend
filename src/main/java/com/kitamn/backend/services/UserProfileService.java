@@ -12,10 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserProfileService {
     private UserProfileRepository profiles;
-    private UserAccountRepository users;
-    public UserProfileService(UserProfileRepository profiles, UserAccountRepository users){
+    public UserProfileService(UserProfileRepository profiles){
         this.profiles = profiles;
-        this.users = users;
     }
 
 

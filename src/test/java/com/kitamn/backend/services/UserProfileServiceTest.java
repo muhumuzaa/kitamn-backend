@@ -30,7 +30,7 @@ class UserProfileServiceTest {
     @BeforeEach
     void setUp() {
         // Explicitly wire the service with the mocks to avoid NPE
-        service = new UserProfileService(profiles, users);
+        service = new UserProfileService(profiles);
     }
 
     private UserProfile makeExistingProfile(Long id) {

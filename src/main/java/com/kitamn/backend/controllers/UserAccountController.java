@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Validated
-@RequestMapping("/api/users")
+@RequestMapping("/api/v1/users")
 public class UserAccountController{
 
     private final UserAccountService userService;
@@ -46,9 +46,6 @@ public class UserAccountController{
     public ResponseEntity<UserResponse> update(@Valid  @PathVariable Long id, @RequestBody UpdateUserRequest req){
         return ResponseEntity.ok(userService.update(id, req));
     }
-
-    //DTO dedicated to password change
-    public record UpdatePasswordRequest(@NotBlank String newPassword){}
 
     // ----------update password only ------------------
     @PatchMapping("/{id}/password")
