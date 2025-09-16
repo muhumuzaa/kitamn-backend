@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BuyRequestRepository extends JpaRepository<BuyRequest, Long> {
 
-    Page<BuyRequestResponse> findAllByBuyer_Id(Long buyer);
+    Page<BuyRequest> findAllByBuyer_Id(Long buyerId, Pageable pageable);
 }

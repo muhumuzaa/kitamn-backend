@@ -9,6 +9,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="seller_offer")
@@ -25,14 +27,17 @@ public class SellerOffer {
     private UserAccount seller;
 
     @ManyToOne(fetch=FetchType.LAZY, optional=false)
-    @JoinColumn(name="buy_request", nullable=false)
+    @JoinColumn(name="buy_request_id", nullable=false)
     private BuyRequest buyRequest;
 
-    @Column(name="offer_price", nullable=false, precision=10, scale=1 )
-    private BigDecimal offerPrice;
 
     @Column(nullable =false, length = 400)
     private String message;
+
+    @ElementCollection
+    @CollectionTable(name = "seller_offer_images", joinColumns = @JoinColumn(name = "seller_offer_id"))
+    @Column(name = "url", length = 2048, nullable = false)
+    private List<String> imageUrls = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable =false, length =16)

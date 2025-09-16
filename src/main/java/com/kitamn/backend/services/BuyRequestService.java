@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,17 +29,21 @@ public class BuyRequestService {
 
     //----------------- create a buy request -----------------------------------
 
-    public BuyRequestResponse createBuy(CreateBuyRequest req, UserAccount buyer){
+    public BuyRequestResponse create(CreateBuyRequest req, UserAccount buyer){
 
-            BuyRequest newBuy = new BuyRequest();
-            newBuy.setTitle(req.title());
-            newBuy.setDescription(req.description());
-            newBuy.setCategory(req.category());
-            newBuy.setBuyerPrice(req.buyerPrice());
-            newBuy.setStatus(ContentStatus.RequestStatus.OPEN);
+            BuyRequest newBuy = new BuyRequest().builder()
+                    .buyer(buyer)
+                    .title(req.title())
+                    .description(req.description())
+                    .category(req.category())
+                    .buyerPrice(req.buyerPrice())
+                    .currency(req.currency() == null ? "CAD" : req.currency().trim().toUpperCase())
+                    .status(ContentStatus.RequestStatus.OPEN).
+                    imageUrls(req.imageUrls() == null? List.of(): new ArrayList<>(req.imageUrls())).
+                    build();
+
 
             newBuy = buyRepo.save(newBuy);
-
 
         return toBuyResponse(newBuy);
     }
@@ -45,7 +51,7 @@ public class BuyRequestService {
     //----------------- find all buy requests -----------------------------------
     @Transactional(readOnly =true)
     public Page<BuyRequestResponse> getAll(Pageable pageable){
-        return buyRepo.findAll(pageable);
+        return buyRepo.findAll(pageable).map(this::toBuyResponse);
     }
 
 
@@ -60,35 +66,25 @@ public class BuyRequestService {
 
     //----------------- update buy request -----------------------------------
 
-    public BuyRequestResponse updateBuy(Long id, UpdateBuyRequest req){
-        if(!buyRepo.existsById(id)){
-            throw new IllegalArgumentException("The Request id: "+id +" you want to update does not exist." +id);
-        }
+    public BuyRequestResponse update(Long id, UpdateBuyRequest req){
+       var dbBuy = buyRepo.findById(id).orElseThrow(() ->new IllegalArgumentException("The Request id: "+id +" you want to update does not exist." +id));
+
         var toUpdate = new BuyRequest();
 
-        toUpdate.setTitle(req.title()!= null? req.title(): toUpdate.getTitle());
-        toUpdate.setDescription(req.description()!= null? req.description(): toUpdate.getDescription());
-        toUpdate.setCategory(req.category()!= null? req.category(): toUpdate.getCategory());
-        toUpdate.setBuyerPrice(req.buyerPrice()!= null? req.buyerPrice(): toUpdate.getBuyerPrice());
+        toUpdate.setTitle(req.title()!= null? req.title(): dbBuy.getTitle());
+        toUpdate.setDescription(req.description()!= null? req.description(): dbBuy.getDescription());
+        toUpdate.setCategory(req.category()!= null? req.category(): dbBuy.getCategory());
+        toUpdate.setBuyerPrice(req.buyerPrice()!= null? req.buyerPrice(): dbBuy.getBuyerPrice());
+        if(req.imageUrls() != null) toUpdate.setImageUrls(new ArrayList<>(req.imageUrls()));
 
-        toUpdate = buyRepo.save(toUpdate);
         return toBuyResponse(toUpdate);
     }
 
-    public void delete(BuyRequest req){
-        var buyReq = buyRepo.findById(req.getId()).orElseThrow(() -> new IllegalArgumentException("The buy req with id: "+req.getId()+" does not exist"));
+    public void delete(Long id){
+        if(!buyRepo.existsById(id)) throw new IllegalArgumentException("The record doesnt exist for id: "+id);
 
-        buyRepo.delete(req);
+        buyRepo.deleteById(id);
     }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -99,7 +95,7 @@ public class BuyRequestService {
     public BuyRequestResponse toBuyResponse(BuyRequest req){
         return new BuyRequestResponse(
                 req.getId(),
-                req.getBuyer(),
+                req.getBuyer()== null? null: req.getBuyer().getId(),
                 req.getTitle(),
                 req.getDescription(),
                 req.getCategory(),
@@ -107,7 +103,8 @@ public class BuyRequestService {
                 req.getStatus(),
                 req.getCurrency(),
                 req.getCreatedAt(),
-                req.getUpdatedAt()
+                req.getUpdatedAt(),
+                req.getImageUrls()
         );
     }
 

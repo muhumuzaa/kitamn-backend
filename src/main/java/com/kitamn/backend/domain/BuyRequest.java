@@ -8,6 +8,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "buy_requests")
@@ -24,14 +26,14 @@ public class BuyRequest {
     @Column(nullable =false, length = 100)
     private String title;
 
-    @Column(nullable = false, length =400)
+    @Column(length =400)
     private String description;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable =false, length =64)
     private ProductCategories category;
 
-    @Column(name = "buyer_price", precision=10, scale=1)
+    @Column(name = "buyer_price", precision=10, scale=2)
     private BigDecimal buyerPrice;
 
     @Column(length = 3, nullable =false)
@@ -41,7 +43,14 @@ public class BuyRequest {
     @Column(nullable=false, length =16)
     private RequestStatus status= RequestStatus.OPEN;
 
-    private OffsetDateTime expiresAt;
+//    private OffsetDateTime expiresAt;
+    @ElementCollection
+    @CollectionTable(name="req_images", joinColumns= @JoinColumn(name= "buy_request_id"))
+    @Column(name="url", length =2048)
+    private List<String> imageUrls = new ArrayList<>();
+
+    @OneToMany(mappedBy ="buyRequest", cascade=CascadeType.REMOVE, orphanRemoval =true)
+    private List<SellerOffer> offers = new ArrayList<>();
 
     @CreationTimestamp
     private OffsetDateTime createdAt;
